@@ -23,14 +23,9 @@ ggplot(oat_data, aes(x = date, y = close)) +
   labs(title = "Close vs Date", x = "Date", y = "Close") +
   theme_minimal()
 
-# Plot close vs date as a bar graph with larger bars
-ggplot(oat_data_agg, aes(x = date, y = close)) +
-  geom_col(fill = "skyblue", color = "#FFD700", width = 0.8) +  # Increased bar width
-  labs(title = "Bar Graph of Close vs Date", x = "Date", y = "Close") +
-  theme_minimal()
-
-# Plot histogram with Frequency on y-axis
+# Plot histogram with density curve line
 ggplot(oat_data, aes(x = close)) +
-  geom_histogram(binwidth = 1, fill = "skyblue", color = "#FFD700") +
-  labs(title = "Histogram of Close (Frequency)", x = "Close", y = "Frequency") +
+  geom_histogram(aes(y = ..density..), binwidth = 1, fill = "skyblue", color = "#FFD700", alpha = 0.5) +  # Histogram
+  geom_density(color = "#FF0000", size = 1) +  # Density curve line
+  labs(title = "Histogram with Density Curve Line", x = "Close", y = "Density") +
   theme_minimal()
