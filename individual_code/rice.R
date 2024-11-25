@@ -29,4 +29,12 @@ ggplot(rice_data_agg, aes(x = close)) +
   geom_density(color = "#FF0000", size = 1) +  # Density curve line
   labs(title = "Histogram with Density Curve Line", x = "Close", y = "Density") +
   theme_minimal()
-Í
+
+# Scatter Plot of Close by date
+ggplot(rice_data_agg, aes(x = date, y = close)) +
+  geom_point(color = "#FFD700", size = 2) +  # Scatter plot with blue points
+  geom_smooth(method = "lm", color = "red", linewidth = 1) +  # Use 'linewidth' instead of 'size' for the regression line
+  labs(title = "Scatter Plot of Close by date with Regression Line",
+       x = "date",
+       y = "Close") +
+  theme_minimal()
