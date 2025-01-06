@@ -1,10 +1,10 @@
 # Team Research Project
 
-Comparison of Corn, Oats, Cereals, and Grains Futures Data in Detail
+COVID-19 Healthy Diet Dataset
 
 ## DataBase
 
-[Kaggle](https://www.kaggle.com/datasets/guillemservera/grains-and-cereals-futures?resource=download) is used to collect data.
+[Kaggle](https://www.kaggle.com/datasets/mariaren/covid19-healthy-diet-dataset/data) is used to collect data.
 
 ## Screenshots
 
