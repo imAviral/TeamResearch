@@ -4,7 +4,7 @@ COVID-19 Healthy Diet Dataset
 
 ## DataBase
 
-[Kaggle](https://www.kaggle.com/datasets/mariaren/covid19-healthy-diet-dataset/data) is used to collect data.
+[Kaggle]([https://www.kaggle.com/datasets/mariaren/covid19-healthy-diet-dataset/data](https://www.kaggle.com/datasets/kimjihoo/coronavirusdataset)) is used to collect data.
 
 ## Screenshots
 
