@@ -12,6 +12,8 @@ time_age <- read.csv("./dataset/TimeAge.csv")
 # Examine structure of the datasets
 str(time)
 str(time_age)
+str(province_cases)
+str(data_clean)
 
 # Convert date columns to Date type
 time$date <- as.Date(time$date)
@@ -53,3 +55,40 @@ ggplot(time_age, aes(x = date, y = deceased, color = age)) +
   ) +
   theme_minimal() +
   theme(legend.position = "right")
+
+# Bar Graph based on showing counts of a categorical variables - Gender and number of cases
+
+data_clean <- subset(patient_info, !is.na(sex) & sex != "")
+gender_distribution <- table(data_clean$sex)
+gender_df <- as.data.frame(gender_distribution)
+colnames(gender_df) <- c("Gender", "Count")
+ggplot(gender_df, aes(x = Gender, y = Count, fill = Gender)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  labs(title = "COVID-19 Cases by Gender", x = "Gender", y = "Number of Cases") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2")
+
+####
+
+data_clean <- patient_info[!(is.na(patient_info$confirmed_date) | is.na(patient_info$province)), ]
+
+# Group by province and calculate the total number of confirmed cases
+province_cases <- data_clean %>%
+  group_by(province) %>%
+  summarize(Confirmed_Cases = n())
+
+# Sort provinces by number of confirmed cases for better visualization
+province_cases <- province_cases %>%
+  arrange(desc(Confirmed_Cases))
+
+# Create the plot
+ggplot(province_cases, aes(x = reorder(province, -Confirmed_Cases), y = Confirmed_Cases)) +
+  geom_bar(stat = "identity", fill = "skyblue", alpha = 0.8) + 
+  geom_line(aes(group = 1), color = "red", size = 1) +        
+  geom_point(color = "red", size = 2) +                      
+  labs(title = "Confirmed Cases by Province",
+       x = "Province",
+       y = "Number of Confirmed Cases") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
