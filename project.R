@@ -112,4 +112,15 @@ if (spearman_test$p.value < 0.05) {
   print("Fail to reject the null hypothesis: No significant monotonic correlation between year and rape incidents.")
 }
 
+# Kendall's Tau Correlation Test
+kendall_test <- cor.test(crime_data_clean$year, crime_data_clean$rape, method = "kendall")
+print("Kendall's Tau Correlation:")
+print(kendall_test)
+print(paste("Kendall's Tau p-value:", kendall_test$p.value)) 
+# Interpretation based on the p-value:
+if (kendall_test$p.value < 0.05) {
+  print("Reject the null hypothesis: There is a significant monotonic correlation between year and rape incidents.")
+} else {
+  print("Fail to reject the null hypothesis: No significant monotonic correlation between year and rape incidents.")
+}
 
