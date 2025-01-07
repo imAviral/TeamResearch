@@ -100,4 +100,16 @@ patient_info_clean <- na.omit(patient_info)
 correlation_test <- cor.test(patient_info_clean$Height, patient_info_clean$Weight, method = "pearson")
 print(correlation_test)
 
+# Spearman's Correlation Test
+spearman_test <- cor.test(crime_data_clean$year, crime_data_clean$rape, method = "spearman")
+print("Spearman's Correlation:")
+print(spearman_test)
+print(paste("Spearman's p-value:", spearman_test$p.value))  # Print p-value for Spearman's
+# Interpretation based on the p-value:
+if (spearman_test$p.value < 0.05) {
+  print("Reject the null hypothesis: There is a significant monotonic correlation between year and rape incidents.")
+} else {
+  print("Fail to reject the null hypothesis: No significant monotonic correlation between year and rape incidents.")
+}
+
 
