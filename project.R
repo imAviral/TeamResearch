@@ -1,35 +1,52 @@
-# This R environment comes with many helpful analytics packages installed
+# Load necessary packages
 library(readr)
 library(tidyverse)
-library(ggplot2)
 library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(reshape)
 
-# reading file data
-all_crop_data <- read_csv("./all_grains_data.csv",show_col_types = FALSE)
-# Check the structure of the data
-str(all_crop_data)
+# Load datasets
+patient_info <- read.csv("./dataset/PatientInfo.csv")
+time <- read.csv("./dataset/Time.csv")
+time_age <- read.csv("./dataset/TimeAge.csv")
 
-# Plot close vs date as a line graph
-ggplot(all_crop_data, aes(x = close, y = commodity)) +
-  geom_line(color = "#4CAF50") +  # Line graph
-  labs(title = "Commodity vs Close", x = "Close", y = "Commodity") +
-  theme_minimal()
+# Examine structure of the datasets
+str(time)
+str(time_age)
 
-# Assuming 'data' contains 'commodity' and 'close' columns
-ggplot(all_crop_data, aes(x = close)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 300, color = "#4CAF50", fill = NA) +  # Histogram with no fill color
-  geom_density(color = "red", linewidth = 1) +
-  facet_wrap(~commodity) + 
-  labs(title = "Histogram of Close by Commodity with Density Line",
-       x = "Close",
-       y = "Commodity") +
-  theme_minimal()
+# Analyze Covid Cases
+datebreak <- seq(from = min(time_reshape$date), to = max(time_reshape$date), by = "1 month")
+time_reshape<-melt(time, id.vars="date", measure.vars =c("confirmed","released","deceased"))
+time_reshape %>%
+  ggplot(aes(x = date, y = value, col = variable)) +
+  geom_point() +
+  geom_line() +
+  ggtitle("Accumulated confirmed, released, deceased numbers") +
+  scale_x_date(breaks = datebreak) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
 
-# Scatter Plot of Close by date
-ggplot(all_crop_data, aes(x = commodity, y = close)) +
-  geom_point(color = "#FFD700", size = 2) +  # Scatter plot with blue points
-  geom_smooth(method = "lm", color = "red", linewidth = 1) +
-  labs(title = "Scatter Plot of Close by Commodity with Regression Line",
-       x = "Commodity",
-       y = "Close") +
-  theme_minimal()
+# Analyze Covid Case against age
+time_age$date<-as.Date(time_age$date)
+time_age %>%
+  ggplot(aes(x = date, y = confirmed, color = age, group = age)) +
+  geom_line() +
+  geom_point() +
+  ggtitle("Accumulated Confirmed Number by Age Group") +
+  scale_x_date(breaks = datebreak) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    text = element_text(size = 15, face = "bold")
+  ) +
+  ylab("Accumulated Confirmed Number")
+time_age %>%
+  ggplot(aes(x = date, y = deceased, color = age, group = age)) +
+  geom_line() +
+  geom_point() +
+  ggtitle("Accumulated Decreased Number by Age Group") +
+  scale_x_date(breaks = datebreak) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    text = element_text(size = 15, face = "bold")
+  ) +
+  ylab("COVID-19 accumulated fatality rate")
