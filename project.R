@@ -14,6 +14,7 @@ str(time)
 str(time_age)
 str(province_cases)
 str(data_clean)
+str(patient_info_clean)
 
 # Convert date columns to Date type
 time$date <- as.Date(time$date)
@@ -91,4 +92,12 @@ ggplot(province_cases, aes(x = reorder(province, -Confirmed_Cases), y = Confirme
        y = "Number of Confirmed Cases") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+patient_info_clean <- na.omit(patient_info)
+
+# Pearson's correlation test
+correlation_test <- cor.test(patient_info_clean$Height, patient_info_clean$Weight, method = "pearson")
+print(correlation_test)
+
 
