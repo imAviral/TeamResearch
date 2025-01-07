@@ -3,8 +3,6 @@ library(readr)
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
-library(gridExtra)
-library(reshape)
 
 # Load datasets
 patient_info <- read.csv("./dataset/PatientInfo.csv")
@@ -15,38 +13,43 @@ time_age <- read.csv("./dataset/TimeAge.csv")
 str(time)
 str(time_age)
 
-# Analyze Covid Cases
-datebreak <- seq(from = min(time_reshape$date), to = max(time_reshape$date), by = "1 month")
-time_reshape<-melt(time, id.vars="date", measure.vars =c("confirmed","released","deceased"))
-time_reshape %>%
-  ggplot(aes(x = date, y = value, col = variable)) +
-  geom_point() +
-  geom_line() +
-  ggtitle("Accumulated confirmed, released, deceased numbers") +
-  scale_x_date(breaks = datebreak) +
-  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+# Convert date columns to Date type
+time$date <- as.Date(time$date)
+time_age$date <- as.Date(time_age$date)
 
-# Analyze Covid Case against age
-time_age$date<-as.Date(time_age$date)
-time_age %>%
-  ggplot(aes(x = date, y = confirmed, color = age, group = age)) +
-  geom_line() +
-  geom_point() +
-  ggtitle("Accumulated Confirmed Number by Age Group") +
-  scale_x_date(breaks = datebreak) +
-  theme(
-    axis.text.x = element_text(angle = 30, hjust = 1),
-    text = element_text(size = 15, face = "bold")
+# Plot Cumulative Confirmed, Released, and Deceased Cases Over Time
+ggplot(time, aes(x = date)) +
+  geom_line(aes(y = confirmed, color = "Confirmed Cases"), size = 1) +
+  geom_line(aes(y = released, color = "Released Cases"), size = 1) +
+  geom_line(aes(y = deceased, color = "Deceased Cases"), size = 1) +
+  labs(
+    title = "Cumulative Confirmed, Released, and Deceased Cases Over Time",
+    x = "Date",
+    y = "Number of Cases",
   ) +
-  ylab("Accumulated Confirmed Number")
-time_age %>%
-  ggplot(aes(x = date, y = deceased, color = age, group = age)) +
-  geom_line() +
-  geom_point() +
-  ggtitle("Accumulated Decreased Number by Age Group") +
-  scale_x_date(breaks = datebreak) +
-  theme(
-    axis.text.x = element_text(angle = 30, hjust = 1),
-    text = element_text(size = 15, face = "bold")
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Plot Confirmed Cases by Age Group Over Time
+ggplot(time_age, aes(x = date, y = confirmed, color = age)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Confirmed Cases by Age Group Over Time",
+    x = "Date",
+    y = "Number of Cases",
+    color = "Age Group"
   ) +
-  ylab("COVID-19 accumulated fatality rate")
+  theme_minimal() +
+  theme(legend.position = "right")
+
+# Plot Deceased Cases by Age Group Over Time
+ggplot(time_age, aes(x = date, y = deceased, color = age)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Deceased Cases by Age Group Over Time",
+    x = "Date",
+    y = "Number of Cases",
+    color = "Age Group"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "right")
