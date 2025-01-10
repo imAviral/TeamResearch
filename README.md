@@ -14,8 +14,7 @@ COVID-19 Healthy Diet Dataset
 [![Rough Rice Crop](https://i.postimg.cc/Bv46cqCY/Screenshot-2024-11-24-at-22-17-57.png)](https://postimg.cc/K1pxmhwB)
 [![Soybean Oil Crop](https://i.postimg.cc/85dxdStH/Screenshot-2024-11-24-at-22-42-56.png)](https://postimg.cc/vgBPMpRg)
 [![Soybean Crop](https://i.postimg.cc/rFw747W1/Screenshot-2024-11-24-at-22-46-38.png)](https://postimg.cc/V527QGKv)
-[![All Crop](https://i.postimg.cc/Y0vqqR6Y/Screenshot-2024-11-25-at-00-14-09.png)](https://postimg.cc/K3yy0ns8)
-
+[![All Crop](https://i.postimg.cc/D0331CWV/temp-Imagerhl-Mrx.avif)
 ## Feedback
 
 If you have any feedback, please reach out to us.
